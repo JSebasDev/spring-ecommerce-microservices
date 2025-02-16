@@ -1,8 +1,23 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: customer-service
-  profiles:
-    active: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/customer_db
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
-server:
-  port: 8081
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  expiration: 86400000
