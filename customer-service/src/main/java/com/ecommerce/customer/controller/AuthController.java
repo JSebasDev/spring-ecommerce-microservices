@@ -1,4 +1,3 @@
-// controller/AuthController.java
 package com.ecommerce.customer.controller;
 
 import com.ecommerce.customer.dto.request.LoginRequest;

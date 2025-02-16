@@ -1,4 +1,3 @@
-// service/impl/UserServiceImpl.java
 package com.ecommerce.customer.service.impl;
 
 import com.ecommerce.customer.domain.entity.User;
