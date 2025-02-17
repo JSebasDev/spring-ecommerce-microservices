@@ -1,4 +1,3 @@
-// domain/entity/UserPrincipal.java
 package com.ecommerce.customer.domain.entity;
 
 import lombok.RequiredArgsConstructor;
