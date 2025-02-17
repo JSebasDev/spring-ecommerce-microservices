@@ -1,4 +1,3 @@
-// security/CustomUserDetailsService.java
 package com.ecommerce.customer.security;
 
 import com.ecommerce.customer.domain.entity.UserPrincipal;
