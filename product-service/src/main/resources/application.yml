@@ -1,8 +1,14 @@
+server:
+  port: 8082
+
 spring:
   application:
     name: product-service
-  profiles:
-    active: local
-
-server:
-  port: 8082
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: product_db
+      username: root
+      password: root
+      authentication-database: admin

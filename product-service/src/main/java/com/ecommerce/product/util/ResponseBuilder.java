@@ -1,6 +1,6 @@
-package com.ecommerce.customer.util;
+package com.ecommerce.product.util;
 
-import com.ecommerce.customer.dto.response.ApiResponse;
+import com.ecommerce.product.dto.response.ApiResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,13 +14,5 @@ public class ResponseBuilder {
                 .message(message)
                 .details(details)
                 .build();
-    }
-
-    public static <T> ApiResponse<T> success(String message, T details) {
-        return build(HttpStatus.OK, message, details);
-    }
-
-    public static <T> ApiResponse<T> error(HttpStatus status, String message, T details) {
-        return build(status, message, details);
     }
 }
