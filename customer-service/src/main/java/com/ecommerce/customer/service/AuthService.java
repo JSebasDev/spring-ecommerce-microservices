@@ -8,4 +8,5 @@ import com.ecommerce.customer.dto.response.UserResponse;
 public interface AuthService {
     UserResponse register(UserRequest request);
     AuthResponse login(LoginRequest request);
+    UserResponse validateToken(String token);
 }

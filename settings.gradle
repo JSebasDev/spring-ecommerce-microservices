@@ -2,3 +2,4 @@ rootProject.name = 'spring-ecommerce-microservices'
 
 include 'customer-service'
 include 'product-service'
+include 'api-gateway'

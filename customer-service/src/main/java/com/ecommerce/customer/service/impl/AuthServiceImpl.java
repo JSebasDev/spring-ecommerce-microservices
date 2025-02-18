@@ -71,4 +71,27 @@ public class AuthServiceImpl implements AuthService {
                 .token(token)
                 .build();
     }
+
+    @Override
+    public UserResponse validateToken(String token) {
+        if (token == null) {
+            throw new UnauthorizedException("Token is required");
+        }
+
+        try {
+            String email = jwtTokenProvider.extractUsername(token);
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new UnauthorizedException("User not found"));
+
+            UserPrincipal userPrincipal = new UserPrincipal(user);
+
+            if (!jwtTokenProvider.isTokenValid(token, userPrincipal)) {
+                throw new UnauthorizedException("Invalid token");
+            }
+
+            return userMapper.toResponseDto(user);
+        } catch (Exception e) {
+            throw new UnauthorizedException("Invalid token");
+        }
+    }
 }
