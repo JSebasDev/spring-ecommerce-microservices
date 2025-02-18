@@ -7,8 +7,10 @@ import com.ecommerce.customer.dto.response.UserResponse;
 import com.ecommerce.customer.dto.request.UserRequest;
 import com.ecommerce.customer.service.AuthService;
 import com.ecommerce.customer.util.ResponseBuilder;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +36,20 @@ public class AuthController {
         ApiResponse<AuthResponse> response = ResponseBuilder.build(HttpStatus.OK, "Login successful", authResponse);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<ApiResponse<UserResponse>> validateToken(HttpServletRequest request) {
+        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+
+        UserResponse userResponse = authService.validateToken(token);
+        return ResponseEntity.ok(ResponseBuilder.build(
+                HttpStatus.OK,
+                "Token is valid",
+                userResponse
+        ));
     }
 }
