@@ -26,6 +26,7 @@ public class Order {
     private String customerId;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<OrderItem> items = new ArrayList<>();
 
     private BigDecimal totalAmount;
