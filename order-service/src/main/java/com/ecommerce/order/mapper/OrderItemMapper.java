@@ -1,7 +1,7 @@
 package com.ecommerce.order.mapper;
 
 import com.ecommerce.order.domain.entity.OrderItem;
-import com.ecommerce.order.dto.request.OrderItemRequest;
+import com.ecommerce.order.dto.request.ValidatedOrderRequest.ValidatedOrderItem;
 import com.ecommerce.order.dto.response.OrderItemResponse;
 import org.mapstruct.*;
 
@@ -10,10 +10,7 @@ public interface OrderItemMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "order", ignore = true)
-    @Mapping(target = "subtotal", ignore = true)
-    @Mapping(target = "price", ignore = true)
-    @Mapping(target = "productName", ignore = true)
-    OrderItem toEntity(OrderItemRequest request);
+    OrderItem toEntity(ValidatedOrderItem request);
 
     OrderItemResponse toResponse(OrderItem orderItem);
 }

@@ -23,6 +23,7 @@ public class ValidatedOrderRequest {
     public static class ValidatedOrderItem {
         private String productId;
         private Integer quantity;
+        private String productName;
         private BigDecimal price;
         private BigDecimal subtotal;
     }

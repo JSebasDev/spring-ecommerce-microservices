@@ -50,6 +50,7 @@ public interface OrderMapper {
                             .productId(item.getProductId())
                             .quantity(item.getQuantity())
                             .price(product.getPrice())
+                            .productName(product.getName())
                             .subtotal(product.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                             .build();
                 })

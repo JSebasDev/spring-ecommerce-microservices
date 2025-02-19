@@ -31,6 +31,13 @@ spring:
           block:
             ms: 5000
 
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+    config:
+      enabled: false
+
 api:
   gateway:
     url: ${API_GATEWAY_URL:http://localhost:8080}
@@ -50,3 +57,25 @@ feign:
         loggerLevel: basic
   circuitbreaker:
     enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
