@@ -42,7 +42,16 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse getOrderById(String orderId) {
         Order order = orderRepository.findByIdWithItems(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order not found with ID: " + orderId));
-        return orderMapper.toResponse(order);
+
+        log.debug("Found order with ID: {}. Items count: {}", order.getId(),
+                order.getItems() != null ? order.getItems().size() : 0);
+
+        OrderResponse response = orderMapper.toResponse(order);
+
+        log.debug("Mapped to response. Items count: {}",
+                response.getItems() != null ? response.getItems().size() : 0);
+
+        return response;
     }
 
     @Override

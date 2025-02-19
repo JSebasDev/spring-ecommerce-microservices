@@ -26,9 +26,9 @@ public interface OrderMapper {
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "items", source = "items")
-    @Mapping(target = "totalAmount", expression = "java(request.getItems().stream().map(item -> item.getSubtotal()).reduce(BigDecimal.ZERO, BigDecimal::add))")
     Order toEntity(ValidatedOrderRequest request);
 
+    @Mapping(target = "items", source = "items")
     OrderResponse toResponse(Order order);
 
     @Mapping(target = "items", source = "request", qualifiedByName = "mapValidatedItems")
