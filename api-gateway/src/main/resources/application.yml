@@ -1,0 +1,62 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: customer-auth-register
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/auth/register
+          filters:
+            - RewritePath=/api/v1/auth/(?<segment>.*), /api/v1/auth/${segment}
+
+        - id: customer-auth-login
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/auth/login
+          filters:
+            - RewritePath=/api/v1/auth/(?<segment>.*), /api/v1/auth/${segment}
+
+        - id: customer-auth-validate
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/auth/validate
+          filters:
+            - AuthenticationFilter
+            - RewritePath=/api/v1/auth/(?<segment>.*), /api/v1/auth/${segment}
+
+        - id: customer-users
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/users/**
+          filters:
+            - AuthenticationFilter
+            - RewritePath=/api/v1/users/(?<segment>.*), /api/v1/users/${segment}
+
+        - id: product-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/products/**
+          filters:
+            - AuthenticationFilter
+            - RewritePath=/api/v1/products/(?<segment>.*), /api/v1/products/${segment}
+
+        - id: product-category
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/categories/**
+          filters:
+            - AuthenticationFilter
+            - RewritePath=/api/v1/categories/(?<segment>.*), /api/v1/categories/${segment}
+
+        - id: order-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/v1/orders/**
+          filters:
+            - AuthenticationFilter
+            - RewritePath=/api/v1/orders/(?<segment>.*), /api/v1/orders/${segment}
