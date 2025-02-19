@@ -32,18 +32,15 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse createOrder(ValidatedOrderRequest validatedOrder) {
         Order order = orderMapper.toEntity(validatedOrder);
         Order savedOrder = orderRepository.save(order);
-
-        // Send the order created event with the Order entity
         kafkaProducerService.sendOrderCreatedEvent(savedOrder);
 
         return orderMapper.toResponse(savedOrder);
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public OrderResponse getOrderById(String orderId) {
-        Order order = orderRepository.findById(orderId)
+        Order order = orderRepository.findByIdWithItems(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order not found with ID: " + orderId));
         return orderMapper.toResponse(order);
     }
@@ -51,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public List<OrderResponse> getCustomerOrders(String customerId) {
-        List<Order> customerOrders = orderRepository.findByCustomerId(customerId);
+        List<Order> customerOrders = orderRepository.findByCustomerIdWithItems(customerId);
         return customerOrders.stream()
                 .map(orderMapper::toResponse)
                 .collect(Collectors.toList());

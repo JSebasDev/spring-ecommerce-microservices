@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class KafkaProducerServiceImpl implements KafkaProducerService {
 
-    private final KafkaTemplate<Long, Object> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Override
     public void sendOrderCreatedEvent(Order order) {
         try {
-            kafkaTemplate.send("order-created", order.getId(), order);
+            kafkaTemplate.send("order-created", order.getId().toString(), order);
             log.info("Order created event sent for order: {}", order.getId());
         } catch (Exception e) {
             log.error("Error sending order created event: {}", e.getMessage());
