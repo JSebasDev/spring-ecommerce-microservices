@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
 @Mapper(
         componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        imports = {BigDecimal.class},
+        uses = {OrderItemMapper.class}
 )
 public interface OrderMapper {
 
@@ -23,11 +25,13 @@ public interface OrderMapper {
     @Mapping(target = "status", constant = "CREATED")
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())")
+    @Mapping(target = "items", source = "items")
+    @Mapping(target = "totalAmount", expression = "java(request.getItems().stream().map(item -> item.getSubtotal()).reduce(BigDecimal.ZERO, BigDecimal::add))")
     Order toEntity(ValidatedOrderRequest request);
 
     OrderResponse toResponse(Order order);
 
-    @Mapping(target = "items", source = "request")
+    @Mapping(target = "items", source = "request", qualifiedByName = "mapValidatedItems")
     @Mapping(target = "totalAmount", ignore = true)
     ValidatedOrderRequest toValidatedRequest(
             OrderRequest request,

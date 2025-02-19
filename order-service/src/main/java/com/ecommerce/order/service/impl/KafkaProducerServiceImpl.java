@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class KafkaProducerServiceImpl implements KafkaProducerService {
 
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTemplate<Long, Object> kafkaTemplate;
 
     @Override
     public void sendOrderCreatedEvent(Order order) {
