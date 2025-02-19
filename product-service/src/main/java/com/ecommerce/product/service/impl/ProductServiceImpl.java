@@ -94,6 +94,8 @@ public class ProductServiceImpl implements ProductService {
                         .id(product.getId())
                         .active(product.isActive())
                         .stock(product.getStock())
+                        .name(product.getName())
+                        .price(product.getPrice())
                         .build())
                 .collect(Collectors.toList());
     }
